@@ -1,8 +1,9 @@
 import React, {useState} from 'react';
 import {Formik} from 'formik';
 import * as yup from 'yup';
-import {Button, Text, TextInput, View} from 'react-native';
+import {Button, Text, View} from 'react-native';
 import {styles} from './style';
+import {EmailInput, PasswordInput} from '../../components';
 
 interface LoginFormProps {
   handleLogIn: (isOpen: boolean) => void;
@@ -26,7 +27,7 @@ const LoginForm: React.FunctionComponent<LoginFormProps> = ({handleLogIn}) => {
       values.email === 'test123@gmail.com' &&
       values.password === '1234567890'
     ) {
-      handleLogIn;
+      handleLogIn(true);
     } else {
       setFailedLogIn(true);
       setTimeout(() => {
@@ -44,29 +45,22 @@ const LoginForm: React.FunctionComponent<LoginFormProps> = ({handleLogIn}) => {
       {({handleChange, handleSubmit, values, errors, isValid}) => (
         <View>
           <Text style={styles.sectionContainer}>Log in</Text>
-          <TextInput
-            style={styles.input}
+          <EmailInput
             onChangeText={handleChange('email')}
             value={values.email}
-            placeholder="Enter your email"
           />
           {errors.email && (
             <Text style={styles.errorMessage}>{errors.email}</Text>
           )}
-          <TextInput
-            style={styles.input}
+          <PasswordInput
             onChangeText={handleChange('password')}
-            secureTextEntry={true}
             value={values.password}
-            placeholder="Enter your password"
           />
           {errors.password && !errors.email && (
             <Text style={styles.errorMessage}>{errors.password}</Text>
           )}
-          {failedLogIn ? (
+          {failedLogIn && (
             <Text style={styles.errorMessage}>Invalid Credentials</Text>
-          ) : (
-            <></>
           )}
           <View style={styles.logInBtn}>
             <Button title="Submit" onPress={handleSubmit} disabled={!isValid} />

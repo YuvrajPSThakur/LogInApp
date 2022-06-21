@@ -1,5 +1,6 @@
 import React from 'react';
-import {Button, StyleSheet, Text, View} from 'react-native';
+import {Button, Text, View} from 'react-native';
+import {styles} from './style';
 
 interface HomePageProps {
   handleLogOut: (isOpen: boolean) => void;
@@ -7,7 +8,7 @@ interface HomePageProps {
 
 const HomePage: React.FunctionComponent<HomePageProps> = ({handleLogOut}) => {
   const handleClick = () => {
-    handleLogOut;
+    handleLogOut(false);
   };
   return (
     <View>
@@ -16,14 +17,5 @@ const HomePage: React.FunctionComponent<HomePageProps> = ({handleLogOut}) => {
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
-    fontSize: 26,
-    textAlign: 'center',
-  },
-});
 
 export default HomePage;

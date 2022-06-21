@@ -1,4 +1,5 @@
 import {StyleSheet} from 'react-native';
+
 export const styles = StyleSheet.create({
   sectionContainer: {
     marginTop: 32,
@@ -8,8 +9,7 @@ export const styles = StyleSheet.create({
   },
   logInBtn: {
     marginTop: 52,
-    marginLeft: 12,
-    marginRight: 12,
+    marginHorizontal: 12,
   },
   input: {
     height: 40,
@@ -17,5 +17,9 @@ export const styles = StyleSheet.create({
     borderWidth: 1,
     padding: 10,
   },
-  errorMessage: {fontSize: 10, color: 'red', marginLeft: 12},
+  errorMessage: {
+    fontSize: 10,
+    color: 'red',
+    marginLeft: 12,
+  },
 });

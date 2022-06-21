@@ -7,8 +7,7 @@ import {
 } from 'react-native';
 
 import {Colors} from 'react-native/Libraries/NewAppScreen';
-import LoginForm from './components/loginForm';
-import HomePage from './components/homePage';
+import {LoginForm, HomePage} from './src/pages';
 
 const App = () => {
   const isDarkMode = useColorScheme() === 'dark';
