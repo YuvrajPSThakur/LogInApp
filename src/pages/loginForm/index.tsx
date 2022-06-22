@@ -48,17 +48,13 @@ const LoginForm: React.FunctionComponent<LoginFormProps> = ({handleLogIn}) => {
           <EmailInput
             onChangeText={handleChange('email')}
             value={values.email}
+            error={errors.email}
           />
-          {errors.email && (
-            <Text style={styles.errorMessage}>{errors.email}</Text>
-          )}
           <PasswordInput
+            error={errors.password}
             onChangeText={handleChange('password')}
             value={values.password}
           />
-          {errors.password && !errors.email && (
-            <Text style={styles.errorMessage}>{errors.password}</Text>
-          )}
           {failedLogIn && (
             <Text style={styles.errorMessage}>Invalid Credentials</Text>
           )}
