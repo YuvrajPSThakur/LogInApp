@@ -1,11 +1,11 @@
 import React from 'react';
-import {TextInput as RNTextInput, View, Text} from 'react-native';
+import {TextInput, Text} from 'react-native';
 import {styles} from '../style';
 
 interface PasswordInputProps {
-  error: string | undefined;
+  error?: string;
   value: string;
-  onChangeText: (e: any) => void;
+  onChangeText: (text: string) => void;
 }
 
 const PasswordInput: React.FunctionComponent<PasswordInputProps> = ({
@@ -13,8 +13,8 @@ const PasswordInput: React.FunctionComponent<PasswordInputProps> = ({
   ...otherProps
 }) => {
   return (
-    <View>
-      <RNTextInput
+    <React.Fragment>
+      <TextInput
         underlineColorAndroid="transparent"
         placeholderTextColor="rgba(34, 62, 75, 0.7)"
         placeholder="Enter your Password"
@@ -22,7 +22,7 @@ const PasswordInput: React.FunctionComponent<PasswordInputProps> = ({
         {...otherProps}
       />
       {error && <Text style={styles.errorMessage}>{error}</Text>}
-    </View>
+    </React.Fragment>
   );
 };
 

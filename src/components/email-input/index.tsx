@@ -1,11 +1,11 @@
 import React from 'react';
-import {TextInput as RNTextInput, View, Text} from 'react-native';
+import {TextInput, Text} from 'react-native';
 import {styles} from '../style';
 
 interface EmailInputProps {
-  error: string | undefined;
+  error?: string;
   value: string;
-  onChangeText: (e: any) => void;
+  onChangeText: (text: string) => void;
 }
 
 const EmailInput: React.FunctionComponent<EmailInputProps> = ({
@@ -13,8 +13,8 @@ const EmailInput: React.FunctionComponent<EmailInputProps> = ({
   ...otherProps
 }) => {
   return (
-    <View>
-      <RNTextInput
+    <React.Fragment>
+      <TextInput
         underlineColorAndroid="transparent"
         placeholderTextColor="rgba(34, 62, 75, 0.7)"
         placeholder="Enter your email"
@@ -22,7 +22,7 @@ const EmailInput: React.FunctionComponent<EmailInputProps> = ({
         {...otherProps}
       />
       {error && <Text style={styles.errorMessage}>{error}</Text>}
-    </View>
+    </React.Fragment>
   );
 };
 
