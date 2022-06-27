@@ -1,6 +1,6 @@
 import React from 'react';
 
 export const AuthContext = React.createContext({
-  logIn: () => {},
+  logIn: (userName: string, password: string) => {},
   logOut: () => {},
 });

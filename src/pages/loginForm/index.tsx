@@ -6,11 +6,7 @@ import {styles} from './style';
 import {EmailInput, PasswordInput} from '../../components';
 import {AuthContext} from '../../../context/auth-context';
 
-interface LoginFormProps {
-  handleLogIn: (isOpen: boolean) => void;
-}
-
-const LoginForm: React.FunctionComponent<LoginFormProps> = () => {
+const LoginForm: React.FunctionComponent = () => {
   const [failedLogIn, setFailedLogIn] = useState(false);
   const {logIn} = React.useContext(AuthContext);
   const loginValidationSchema = yup.object().shape({
@@ -29,7 +25,7 @@ const LoginForm: React.FunctionComponent<LoginFormProps> = () => {
       values.email === 'test123@gmail.com' &&
       values.password === '1234567890'
     ) {
-      logIn();
+      logIn(values.email, values.password);
     } else {
       setFailedLogIn(true);
       setTimeout(() => {
