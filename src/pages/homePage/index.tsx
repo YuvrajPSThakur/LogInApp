@@ -1,13 +1,13 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, {useContext} from 'react';
 import {Button, Text, View} from 'react-native';
-import {styles} from './style';
 import {AuthContext} from '../../../context/auth-context';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import {styles} from './style';
 
 const HomePage: React.FunctionComponent = () => {
-  const authContext = useContext(AuthContext);
+  const {setUser} = useContext(AuthContext);
   const logOut = async () => {
-    authContext.setUser(null);
+    setUser(undefined);
     await AsyncStorage.setItem('userName', '');
     await AsyncStorage.setItem('userToken', '');
   };

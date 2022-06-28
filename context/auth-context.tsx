@@ -1,14 +1,14 @@
-import React, {createContext, ReactNode} from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import React, {createContext, PropsWithChildren} from 'react';
 
 interface User {
-  name: string | null;
-  token: string | null;
+  name: string;
+  token: string;
 }
 
 interface AuthContextInterface {
-  setUser: (user: User | null) => void;
-  user: User | null;
+  setUser: (user?: User) => void;
+  user?: User;
 }
 
 // export const AuthContext = React.createContext({
@@ -18,16 +18,16 @@ interface AuthContextInterface {
 
 const authContextDefaultValues: AuthContextInterface = {
   setUser: () => {},
-  user: null,
+  user: undefined,
 };
 
 export const AuthContext = createContext<AuthContextInterface>(
   authContextDefaultValues,
 );
 
-type Props = {children: ReactNode};
-
-export const AuthContextProvider: React.FC<Props> = ({children}) => {
+export const AuthContextProvider: React.FC<PropsWithChildren<{}>> = ({
+  children,
+}) => {
   // const getData: User = async () => {
   //   const userToken = await AsyncStorage.getItem('userToken');
   //   const userName = await AsyncStorage.getItem('userName');
@@ -38,7 +38,7 @@ export const AuthContextProvider: React.FC<Props> = ({children}) => {
   //   };
   //   return user;
   // };
-  const [user, setUser] = React.useState<User | null>(null);
+  const [user, setUser] = React.useState<User>();
 
   React.useEffect(() => {
     (async () => {
@@ -49,10 +49,7 @@ export const AuthContextProvider: React.FC<Props> = ({children}) => {
           name: userName,
           token: userToken,
         });
-      } else {
-        setUser(null);
       }
-      //console.log('From context', user);
     })();
   }, []);
 

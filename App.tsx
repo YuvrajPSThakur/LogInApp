@@ -1,15 +1,12 @@
-import React, {useContext, useState} from 'react';
-import {ActivityIndicator, useColorScheme, View} from 'react-native';
+import React, {useState} from 'react';
+import {ActivityIndicator, View} from 'react-native';
 //import AsyncStorage from '@react-native-async-storage/async-storage';
-import {NavigationContainer} from '@react-navigation/native';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
-import {LoginForm, HomePage} from './src/pages';
-import {AuthContext, AuthContextProvider} from './context';
+import {SafeAreaProvider} from 'react-native-safe-area-context';
+import {AuthContextProvider} from './context';
+import {AppNavigator} from './src/navigators/AppNavigator';
 
 const App = () => {
-  const isDarkMode = useColorScheme() === 'dark';
-  const Stack = createNativeStackNavigator();
   const [isLoading, setIsLoading] = useState(true);
 
   // const initialLoginState = {
@@ -71,8 +68,6 @@ const App = () => {
   //   initialLoginState,
   // );
 
-  const authContext = useContext(AuthContext);
-
   React.useEffect(() => {
     setTimeout(async () => {
       // let userToken;
@@ -84,9 +79,8 @@ const App = () => {
       // }
       // dispatch({type: 'RESTART', token: userToken, id: 'Test'});
       setIsLoading(false);
-      console.log('From Main App', authContext.user);
     }, 1000);
-  }, [authContext]);
+  }, []);
 
   // const authContext = React.useMemo(
   //   () => ({
@@ -114,26 +108,21 @@ const App = () => {
   //   [],
   // );
 
-  if (isLoading) {
-    return (
-      <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-        <ActivityIndicator size={'large'} />
-      </View>
-    );
-  }
-
   return (
-    <AuthContextProvider>
-      <NavigationContainer>
-        <Stack.Navigator>
-          {authContext.user ? (
-            <Stack.Screen name="Home" component={HomePage} />
+    <SafeAreaProvider>
+      <AuthContextProvider>
+        <>
+          {isLoading ? (
+            <View
+              style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+              <ActivityIndicator size={'large'} />
+            </View>
           ) : (
-            <Stack.Screen name="LogIn" component={LoginForm} />
+            <AppNavigator />
           )}
-        </Stack.Navigator>
-      </NavigationContainer>
-    </AuthContextProvider>
+        </>
+      </AuthContextProvider>
+    </SafeAreaProvider>
   );
 };
 
