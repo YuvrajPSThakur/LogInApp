@@ -18,6 +18,7 @@ const PasswordInput: React.FunctionComponent<PasswordInputProps> = ({
         underlineColorAndroid="transparent"
         placeholderTextColor="rgba(34, 62, 75, 0.7)"
         placeholder="Enter your Password"
+        secureTextEntry={true}
         style={styles.input}
         {...otherProps}
       />

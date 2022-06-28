@@ -5,10 +5,11 @@ import {Button, Text, View} from 'react-native';
 import {styles} from './style';
 import {EmailInput, PasswordInput} from '../../components';
 import {AuthContext} from '../../../context/auth-context';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const LoginForm: React.FunctionComponent = () => {
   const [failedLogIn, setFailedLogIn] = useState(false);
-  const {logIn} = React.useContext(AuthContext);
+  const authContext = React.useContext(AuthContext);
   const loginValidationSchema = yup.object().shape({
     email: yup
       .string()
@@ -19,13 +20,17 @@ const LoginForm: React.FunctionComponent = () => {
       .min(8, ({min}) => `Password must be at least ${min} characters`)
       .required('Password is required'),
   });
-  const handleFormSubmit = (values: any) => {
+  const handleFormSubmit = async (values: any) => {
     setFailedLogIn(false);
     if (
       values.email === 'test123@gmail.com' &&
       values.password === '1234567890'
     ) {
-      logIn(values.email, values.password);
+      authContext.setUser({name: 'Test', token: 'random'});
+      await AsyncStorage.setItem('userToken', 'random');
+      await AsyncStorage.setItem('userName', 'Test');
+      //const res = await AsyncStorage.getItem('userName');
+      console.log('from login', authContext.user);
     } else {
       setFailedLogIn(true);
       setTimeout(() => {
