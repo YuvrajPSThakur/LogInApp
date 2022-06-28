@@ -8,6 +8,8 @@ import {
   View,
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {NavigationContainer} from '@react-navigation/native';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 import {LoginForm, HomePage} from './src/pages';
@@ -15,6 +17,7 @@ import {AuthContext} from './context/auth-context';
 
 const App = () => {
   const isDarkMode = useColorScheme() === 'dark';
+  const Stack = createNativeStackNavigator();
 
   const initialLoginState = {
     isLoading: true,
@@ -117,14 +120,22 @@ const App = () => {
 
   return (
     <AuthContext.Provider value={authContext}>
-      <SafeAreaView style={backgroundStyle}>
-        <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-        <ScrollView
-          contentInsetAdjustmentBehavior="automatic"
-          style={backgroundStyle}>
-          {loginState.userToken ? <HomePage /> : <LoginForm />}
-        </ScrollView>
-      </SafeAreaView>
+      <NavigationContainer>
+        <SafeAreaView style={backgroundStyle}>
+          <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
+          <ScrollView
+            contentInsetAdjustmentBehavior="automatic"
+            style={backgroundStyle}>
+            <Stack.Navigator>
+              {loginState.userToken ? (
+                <Stack.Screen name="Home" component={HomePage} />
+              ) : (
+                <Stack.Screen name="LogIn" component={LoginForm} />
+              )}
+            </Stack.Navigator>
+          </ScrollView>
+        </SafeAreaView>
+      </NavigationContainer>
     </AuthContext.Provider>
   );
 };
