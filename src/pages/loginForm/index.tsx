@@ -1,16 +1,15 @@
-import React, {useState} from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import {Formik} from 'formik';
-import * as yup from 'yup';
+import React, {useState} from 'react';
 import {Button, Text, View} from 'react-native';
-import {styles} from './style';
+import * as yup from 'yup';
+import {AuthContext} from '../../../context/auth-context';
 import {EmailInput, PasswordInput} from '../../components';
+import {styles} from './style';
 
-interface LoginFormProps {
-  handleLogIn: (isOpen: boolean) => void;
-}
-
-const LoginForm: React.FunctionComponent<LoginFormProps> = ({handleLogIn}) => {
+const LoginForm: React.FunctionComponent = () => {
   const [failedLogIn, setFailedLogIn] = useState(false);
+  const {setUser} = React.useContext(AuthContext);
   const loginValidationSchema = yup.object().shape({
     email: yup
       .string()
@@ -21,13 +20,16 @@ const LoginForm: React.FunctionComponent<LoginFormProps> = ({handleLogIn}) => {
       .min(8, ({min}) => `Password must be at least ${min} characters`)
       .required('Password is required'),
   });
-  const handleFormSubmit = (values: any) => {
+  const handleFormSubmit = async (values: any) => {
     setFailedLogIn(false);
     if (
       values.email === 'test123@gmail.com' &&
       values.password === '1234567890'
     ) {
-      handleLogIn(true);
+      setUser({name: 'Test', token: 'random'});
+      await AsyncStorage.setItem('userToken', 'random');
+      await AsyncStorage.setItem('userName', 'Test');
+      //const res = await AsyncStorage.getItem('userName');
     } else {
       setFailedLogIn(true);
       setTimeout(() => {
